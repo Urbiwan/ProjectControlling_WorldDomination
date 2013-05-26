@@ -1,0 +1,4 @@
+paloConf: {location: localhost,
+port: 1337,
+loginName: admin,
+loginPwd: admin}
