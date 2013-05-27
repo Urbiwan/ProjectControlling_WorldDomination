@@ -1,17 +1,14 @@
+
 import org.palo.api.Connection;
 import org.palo.api.ConnectionConfiguration;
 import org.palo.api.ConnectionFactory;
 import org.palo.api.Cube;
 import org.palo.api.Database;
 import org.palo.api.Dimension;
-import org.palo.api.Element;
+import org.palo.api.Hierarchy;
 
 
-/*
- * Resource:
- * http://www.jedox.com/community/palo-forum/index.php?page=Thread&threadID=3311
- */
-public class Test {
+public class BuildDemoDB {
 
 	public static void main(String[] args)
 	{
@@ -19,20 +16,25 @@ public class Test {
 		String port = "7777";
 		String user = "admin";
 		String pass = "admin";
-
-		ConnectionConfiguration config = new ConnectionConfiguration("localhost","7777");
-		config.setUser("admin");
-		config.setPassword("admin");
+		
+		ConnectionConfiguration config = new ConnectionConfiguration(server, port);
+		config.setUser(user);
+		config.setPassword(pass);
 		config.setTimeout(10000);
 		config.setType(Connection.TYPE_HTTP);
 		config.setLoadOnDemand(true);
 		Connection connect = ConnectionFactory.getInstance().newConnection(config);
 		
 		Database db = connect.getDatabaseByName("Demo");
-		Cube cube = db.getCubeByName("Sales");
-		System.out.println(cube.getName());
-		for (Dimension d : cube.getDimensions()) System.out.println(d.getName());
-		System.out.println();
+		if (db != null) connect.removeDatabase(db);
+		db = connect.addDatabase("Demo");
+		
+		Dimension a = db.addDimension("a");
+		Dimension[] dim = new Dimension[] {a};
+//		dim[0].getDefaultHierarchy()
+		Cube sales = db.addCube("Sales", dim);
+		
+		
 		
 		
 		connect.disconnect();
