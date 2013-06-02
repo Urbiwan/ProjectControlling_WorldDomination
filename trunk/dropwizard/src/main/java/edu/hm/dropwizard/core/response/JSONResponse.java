@@ -1,9 +1,9 @@
 package edu.hm.dropwizard.core.response;
 
-public class ComputedData {
+public class JSONResponse {
 	private String foo;
 	
-	public ComputedData(String foo) {
+	public JSONResponse(String foo) {
 		this.foo = foo;
 	}
 	

@@ -6,8 +6,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import edu.hm.dropwizard.core.request.AccountingData;
-import edu.hm.dropwizard.core.response.ComputedData;
+import edu.hm.dropwizard.core.request.JSONRequest;
+import edu.hm.dropwizard.core.response.JSONResponse;
 
 @Path("/compute")
 public class ComputeResource {
@@ -15,9 +15,8 @@ public class ComputeResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public ComputedData compute(AccountingData data)
+	public JSONResponse compute(JSONRequest data)
 	{
-		
-		return null;
+		return new JSONResponse(" COMPUTED");
 	}
 }

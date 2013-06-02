@@ -1,4 +1,5 @@
-paloConf: {location: localhost,
-port: 1337,
-loginName: admin,
-loginPwd: admin}
+palo:
+ port: 1338
+ location: localhost
+ loginName: admin
+ loginPwd: admin
