@@ -2,9 +2,12 @@ package edu.hm.model.bookings;
 
 import edu.hm.dropwizard.core.request.JSONChild;
 import edu.hm.dropwizard.core.request.JSONRequest;
+import edu.hm.model.bookings.model.bookings.impl.AccountingData;
+import edu.hm.model.bookings.model.bookings.impl.Employee;
+import edu.hm.model.bookings.model.bookings.impl.Entry;
+import edu.hm.model.bookings.model.bookings.impl.Project;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,31 +18,41 @@ import java.util.List;
  */
 public class BookingFactory {
 
-    public static AccountingData create(Object obj) {
+    public static IAccountingData create(Object obj) {
         if(obj.getClass() == JSONRequest.class)
             return create((JSONRequest)obj);
 
         throw new IllegalArgumentException("Unknown object.");
     }
 
-
-    //TODO replace AccountingData with Interface, which is readonly.
-    private static AccountingData create(JSONRequest request) {
-        List<Entry> entries = new ArrayList<Entry>();
-        List<Project> projects = new ArrayList<Project>();
-        List<Employee> employees = new ArrayList<Employee>();
-        List<String> departments = new ArrayList<String>();
-
+    private static IAccountingData create(JSONRequest request) {
+       AccountingData data = new AccountingData(new ArrayList<Entry>(), new ArrayList<Employee>(),
+               new ArrayList<String>(), new ArrayList<Project>());
 
         for(JSONChild child : request.getEntries()) {
-            //TODO add functionality
+            if(!data.getModifiableDepartments().contains(child.getDepartment()))
+                data.getModifiableDepartments().add((child.getDepartment()));
 
-            //Project project = new Project()
+            Project project = data.getModifiableProject(child.getProject());
+            if(project == null) {
+                project = new Project(child.getProject(), child.getDepartment(), new ArrayList<String>());
+                project.getModifiableList().add(child.getAccount());
+                data.getModifiableProjects().add(project);
+            }
+            if(!project.getModifiableList().contains(child.getAccount()))
+                project.getModifiableList().add(child.getAccount());
 
-            //Entry entry = new Entry(child.getHours(), child.getMonth(), )
+            Employee employee = data.getModifiableEmployee(child.getEmployeeID());
+            if(employee == null) {
+                employee = new Employee(child.getEmployeeID(), child.getEmployee(), child.getEmployeeTier());
+                data.getModifiableEmployees().add(employee);
+            }
 
+            Entry entry = new Entry(child.getHours(), child.getMonth(), child.getYear(), project,
+                    child.getAccount(), child.isFakt(), child.getCostLimit(), child.getCostRate());
+            data.getModifiableBookings().add(entry);
         }
 
-        return new AccountingData(entries, employees, departments, projects);
+        return data;
     }
 }

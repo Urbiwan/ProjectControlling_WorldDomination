@@ -8,6 +8,8 @@ import com.yammer.metrics.core.HealthCheck;
 import edu.hm.dropwizard.configuration.DropwizardConfiguration;
 import edu.hm.dropwizard.configuration.PaloConfiguration;
 import edu.hm.dropwizard.health.ComputeHealth;
+import edu.hm.palo.IPaloControl;
+import edu.hm.palo.PaloMock;
 
 public class ComputeService extends Service<DropwizardConfiguration>{
 	public static void main(String[] args) throws Exception {
@@ -22,8 +24,10 @@ public class ComputeService extends Service<DropwizardConfiguration>{
 	@Override
 	public void run(DropwizardConfiguration configuration, Environment environment)
 			throws Exception {
-		environment.addResource(new edu.hm.dropwizard.resources.ComputeResource());
-		environment.addHealthCheck(new ComputeHealth());
+        IPaloControl palo = new PaloMock();
+
+		environment.addResource(new edu.hm.dropwizard.resources.ComputeResource(palo));
+		environment.addHealthCheck(new ComputeHealth(palo));
 	}
 
 }

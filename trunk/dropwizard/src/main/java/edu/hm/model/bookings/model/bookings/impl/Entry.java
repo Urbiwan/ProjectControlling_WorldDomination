@@ -1,6 +1,8 @@
-package edu.hm.model.bookings;
+package edu.hm.model.bookings.model.bookings.impl;
 
-public class Entry {
+import edu.hm.model.bookings.IEntry;
+
+public class Entry implements IEntry {
 	private final float hours;
 	private final int month;
     private final int year;
@@ -9,10 +11,10 @@ public class Entry {
     private final String account;
 
 	private final boolean fakt;
-	private final int borderCosts;
+	private final float borderCosts;
 	private final float costRate;
 
-    public Entry(float hours, int month, int year, Project project, String account, boolean fakt, int borderCosts, float costRate) {
+    public Entry(float hours, int month, int year, Project project, String account, boolean fakt, float borderCosts, float costRate) {
         //TODO Add guard.
         this.hours = hours;
         this.month = month;
@@ -48,7 +50,7 @@ public class Entry {
 		return fakt;
 	}
 	
-	public int getBorderCosts() {
+	public float getCostLimit() {
 		return borderCosts;
 	}
 	

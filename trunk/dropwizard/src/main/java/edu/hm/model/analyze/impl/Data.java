@@ -1,45 +1,28 @@
-package edu.hm.dropwizard.core.response;
+package edu.hm.model.analyze.impl;
 
-public class JSONResponse {
-    /**
-     * Summe aller gebuchten Stunden ohne KRANK und URLAUB.
-     * Leistung
-     */
+import edu.hm.model.analyze.IData;
+
+/**
+ * Created with IntelliJ IDEA.
+ * User: WEBER
+ * Date: 03.06.13
+ * Time: 18:27
+ * To change this template use File | Settings | File Templates.
+ */
+public class Data implements IData {
     private float actifity;
-    /**
-     * Summe der STunden, die fakturierbar sind.
-     * fakturisierbare Leistung.
-     */
     private float faktActivity;
-    /**
-     * fakLeistung / Leistung = auslastung
-     */
     private float efficiency;
-    /**
-     * Die summe des produkts aus verrechnungssatz und stunden
-     * uber alle fakt. Buchungen
-     */
     private float totalQuantity;
-    /**
-     * Die summe des Produkts aus Grenzkosten und Stunden ueber
-     * alle Buchungen
-     */
     private float costs;
-    /**
-     * Leistungsumsatz - kosten
-     */
     private float benefit;
-    /**
-     * Summe der Stunden ueber alle Buchungen, die auf ein KRANK
-     * Konto gebucht wurden/L
-     */
     private float illnessRate;
-	
-	public JSONResponse() {
 
-	}
+    public Data() {
 
-    public JSONResponse(float actifity, float faktActivity, float efficiency, float totalQuantity, float costs, float benefit, float illnessRate) {
+    }
+
+    public Data(float actifity, float faktActivity, float efficiency, float totalQuantity, float costs, float benefit, float illnessRate) {
         this.actifity = actifity;
         this.faktActivity = faktActivity;
         this.efficiency = efficiency;
@@ -49,30 +32,37 @@ public class JSONResponse {
         this.illnessRate = illnessRate;
     }
 
+    @Override
     public float getActifity() {
         return actifity;
     }
 
+    @Override
     public float getFaktActivity() {
         return faktActivity;
     }
 
+    @Override
     public float getEfficiency() {
         return efficiency;
     }
 
+    @Override
     public float getTotalQuantity() {
         return totalQuantity;
     }
 
+    @Override
     public float getCosts() {
         return costs;
     }
 
+    @Override
     public float getBenefit() {
         return benefit;
     }
 
+    @Override
     public float getIllnessRate() {
         return illnessRate;
     }

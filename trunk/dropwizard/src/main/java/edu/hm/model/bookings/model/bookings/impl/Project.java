@@ -1,9 +1,11 @@
-package edu.hm.model.bookings;
+package edu.hm.model.bookings.model.bookings.impl;
+
+import edu.hm.model.bookings.IProject;
 
 import java.util.Collections;
 import java.util.List;
 
-public class Project {
+public class Project implements IProject {
 	private final String name;
     private final String department;
     private final List<String> accounts;
@@ -25,5 +27,9 @@ public class Project {
 
     public  List<String> getAccounts() {
         return Collections.unmodifiableList(accounts);
+    }
+
+    public List<String> getModifiableList() {
+        return accounts;
     }
 }

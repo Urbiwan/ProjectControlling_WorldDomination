@@ -23,7 +23,10 @@ public class JSONChild {
     private float hours;
 
     @JsonProperty("Month")
-    private String month;
+    private int month;
+
+    @JsonProperty("Year")
+    private int year;
 
     @JsonProperty("Project")
     private String project;
@@ -47,7 +50,7 @@ public class JSONChild {
 
     }
 
-    public JSONChild(int employeeID, String employee, int employeeTier, float hours, String month,
+    public JSONChild(int employeeID, String employee, int employeeTier, float hours, int month, int year,
                      String project, String department, String account, boolean fakt,
                      float costLimit, float costRate) {
         this.employeeID = employeeID;
@@ -55,6 +58,7 @@ public class JSONChild {
         this.employeeTier = employeeTier;
         this.hours = hours;
         this.month = month;
+        this.year = year;
         this.project = project;
         this.department = department;
         this.account = account;
@@ -79,8 +83,12 @@ public class JSONChild {
         return hours;
     }
 
-    public String getMonth() {
+    public int getMonth() {
         return month;
+    }
+
+    public int getYear() {
+        return year;
     }
 
     public String getProject() {

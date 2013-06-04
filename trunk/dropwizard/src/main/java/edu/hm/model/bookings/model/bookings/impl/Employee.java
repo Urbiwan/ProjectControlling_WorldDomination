@@ -1,8 +1,8 @@
-package edu.hm.model.bookings;
+package edu.hm.model.bookings.model.bookings.impl;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import edu.hm.model.bookings.IEmployee;
 
-public class Employee {
+public class Employee implements IEmployee {
     private final int id;
 	private final String name;
 	private final int developTier;
