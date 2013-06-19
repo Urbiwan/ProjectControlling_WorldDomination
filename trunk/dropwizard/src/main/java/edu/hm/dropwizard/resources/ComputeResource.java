@@ -1,13 +1,11 @@
 package edu.hm.dropwizard.resources;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 import edu.hm.dropwizard.core.request.JSONRequest;
 import edu.hm.dropwizard.core.response.JSONResponse;
+import edu.hm.dropwizard.core.response.JSONToken;
 import edu.hm.model.bookings.BookingFactory;
 import edu.hm.model.analyze.AnalyzeConverter;
 import edu.hm.palo.IPaloControl;
@@ -27,4 +25,11 @@ public class ComputeResource {
 	{
 		return AnalyzeConverter.convert(palo.compute(BookingFactory.create(data)));
 	}
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public JSONResponse compute(@QueryParam("token") int token)
+    {
+        return AnalyzeConverter.convert(palo.compute(token));
+    }
 }

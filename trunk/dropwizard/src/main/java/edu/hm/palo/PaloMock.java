@@ -4,6 +4,10 @@ import edu.hm.model.analyze.impl.Data;
 import edu.hm.model.bookings.IAccountingData;
 import edu.hm.model.bookings.IEntry;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
 /**
  * Created with IntelliJ IDEA.
  * User: WEBER
@@ -12,6 +16,14 @@ import edu.hm.model.bookings.IEntry;
  * To change this template use File | Settings | File Templates.
  */
 public class PaloMock implements IPaloControl {
+
+    private Map<Integer, IAccountingData> storedData;
+    private Random random;
+
+    public  PaloMock() {
+        storedData = new HashMap<Integer, IAccountingData>();
+        random = new Random(System.currentTimeMillis());
+    }
 
     @Override
     public Object compute(IAccountingData data) {
@@ -44,5 +56,28 @@ public class PaloMock implements IPaloControl {
 
         return new Data(actifity, faktActivity, efficiency,
                 totalQuantity, costs, benefit, illnessRate);
+    }
+
+    @Override
+    public Object compute(int token) {
+        IAccountingData data = storedData.get(token);
+
+        if(data == null)
+            return new Data();
+
+        return compute(data);
+    }
+
+    @Override
+    public int upload(IAccountingData data) {
+        int token;
+
+        do {
+            token = random.nextInt();
+        }while(storedData.containsKey(token));
+
+        storedData.put(token, data);
+
+        return token;
     }
 }
