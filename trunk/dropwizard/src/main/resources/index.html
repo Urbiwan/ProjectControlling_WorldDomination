@@ -1,23 +1,76 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <title>Demo</title>
-    <style>
-        a.test {
-        font-weight: bold;
-        }
-    </style>
+    <head>
+        <meta charset="utf-8" />
+        <title>Demo</title>
+        <style>
+            a.test {
+            font-weight: bold;
+            }
 
-</head>
-<body>
-<form action="" method="get">
-    <input type="file" id="file_input" />
-    <button type="button" id="btnUpload">Upload</button>
-</form>
-<span id="status">Ready</span>
+            div.div_class_name {
+                display:none;
+            }
+        </style>
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/jquery.fileupload-ui.css">
+    </head>
+    <body>
+        <div>
+            <span class="btn btn-success fileinput-button">
+                <i class="icon-plus icon-white"></i>
+                <span>Select files...</span>
+                <!-- The file input field used as target for the file upload widget -->
+                <input id="fileupload" type="file" name="file">
+            </span>
 
-<script src="jquery-2.0.2.min.js"></script>
-<script src="qriz.js"></script>
-</body>
+            <div id="progress" class="progress progress-success progress-striped">
+                <div class="bar"></div>
+            </div>
+        </div>
+        <div>
+            <div id="RESPONSE">
+                <table>
+                    <tr>
+                        <td>actifity</td>
+                        <td id="actifity">-11</td>
+                    </tr>
+                    <tr>
+                        <td>faktActivity</td>
+                        <td id="faktActivity">-11</td>
+                    </tr>
+                    <tr>
+                        <td>efficiency</td>
+                        <td id="efficiency">-11</td>
+                    </tr>
+                    <tr>
+                        <td>totalQuantity</td>
+                        <td id="totalQuantity">-11</td>
+                    </tr>
+                    <tr>
+                        <td>costs</td>
+                        <td id="costs">-11</td>
+                    </tr>
+                    <tr>
+                        <td>benefit</td>
+                        <td id="benefit">-11</td>
+                    </tr>
+                    <tr>
+                        <td>illnessRate</td>
+                        <td id="illnessRate">-11</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="GRAPHICS">
+
+            </div>
+        </div>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <script src="js/vendor/jquery.ui.widget.js"></script>
+        <script src="js/jquery.iframe-transport.js"></script>
+        <script src="js/jquery.fileupload.js"></script>
+        <script src="qriz.js"></script>
+    </body>
 </html>

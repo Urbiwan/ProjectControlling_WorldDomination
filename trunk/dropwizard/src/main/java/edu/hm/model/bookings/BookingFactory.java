@@ -48,7 +48,7 @@ public class BookingFactory {
                 data.getModifiableEmployees().add(employee);
             }
 
-            Entry entry = new Entry(child.getHours(), child.getMonth(), child.getYear(), project,
+            Entry entry = new Entry(employee, child.getHours(), child.getMonth(), child.getYear(), project,
                     child.getAccount(), child.isFakt(), child.getCostLimit(), child.getCostRate());
             data.getModifiableBookings().add(entry);
         }

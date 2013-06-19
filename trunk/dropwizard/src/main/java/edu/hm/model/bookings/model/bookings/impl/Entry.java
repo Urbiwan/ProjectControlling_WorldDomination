@@ -1,5 +1,6 @@
 package edu.hm.model.bookings.model.bookings.impl;
 
+import edu.hm.model.bookings.IEmployee;
 import edu.hm.model.bookings.IEntry;
 
 public class Entry implements IEntry {
@@ -9,13 +10,15 @@ public class Entry implements IEntry {
 
     private final Project project;
     private final String account;
+    private final Employee employee;
 
 	private final boolean fakt;
 	private final float borderCosts;
 	private final float costRate;
 
-    public Entry(float hours, int month, int year, Project project, String account, boolean fakt, float borderCosts, float costRate) {
+    public Entry(Employee employee, float hours, int month, int year, Project project, String account, boolean fakt, float borderCosts, float costRate) {
         //TODO Add guard.
+        this.employee = employee;
         this.hours = hours;
         this.month = month;
         this.year = year;
@@ -25,8 +28,13 @@ public class Entry implements IEntry {
         this.borderCosts = borderCosts;
         this.costRate = costRate;
     }
-	
-	public float getHours() {
+
+    @Override
+    public IEmployee getEmployee() {
+        return employee;
+    }
+
+    public float getHours() {
 		return hours;
 	}
 	

@@ -18,13 +18,13 @@ public interface IAccountingData {
      * Return an immutable List.
      * @return immutable List.
      */
-    public List<Entry> getBookings();
+    public List<IEntry> getBookings();
 
     /**
      * Return an immutable List.
      * @return immutable List.
      */
-    public List<Employee> getEmployees();
+    public List<IEmployee> getEmployees();
 
     /**
      * Return an immutable List.
@@ -36,5 +36,9 @@ public interface IAccountingData {
      * Return an immutable List.
      * @return immutable List.
      */
-    public List<Project> getProjects();
+    public List<IProject> getProjects();
+
+    public IEmployee getEmployeeById(int id);
+
+    public IProject getProjectByName(String name);
 }

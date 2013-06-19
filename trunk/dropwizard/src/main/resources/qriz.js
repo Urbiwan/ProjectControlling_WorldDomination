@@ -1,50 +1,50 @@
-function readFile(file, callback) {
-	var reader = new FileReader();
-	reader.onload = function(evt) {
-		document.getElementById('status').innerHTML = "Ready";
-        if (typeof callback=="function")
-            callback(file, evt);
-	};
-	
-	reader.readAsBinaryString( file );
+function SERVER_IP() {
+    return '192.168.100.126:8080';
 }
 
-window.onload = function() {          
-	document.getElementById("btnUpload").onclick = function() {
-		var input = document.getElementById("file_input");
-	  
-		if ( typeof FileReader=="undefined" || !input.files)
-		{
-			alert("Your browser doesn't support the HTML 5 File API!");
-			return;
-		}
-		if ( input.files.length < 1 )
-		{
-			alert("Please select a file!");
-			return;
-		}
-		readFile(input.files[0], function(file, evt)
-		{
-			$.ajax({
-				type: 'get',
-				//contentType: '*/*',
-				url: 'http://192.168.100.126:8080/upload',
-				data: 'file='+encodeURIComponent(evt.target.result),
-				success: upload
-            });
-        });
-	}
-}
+$(function () {
+    'use strict';
+    $('#fileupload').fileupload({
+        url: '/upload',
+        dataType: 'json',
+        progressall: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .bar').css(
+                    'width',
+                    progress + '%'
+            );
+        },
+        done: function (e, data) {
+            upload(e, data);
+        }
+    });
+});
 
-function upload(data) {
+function upload(e, data) {
     $.ajax({
         type: 'get',
-        url: 'http://192.168.100.126:8080/compute',
-        data: 'token='+data.token,
+        url: '/download',
+        data: 'token='+data.result.token,
+        success: draw
+    });
+    $.ajax({
+        type: 'get',
+        url: '/compute',
+        data: 'token='+data.result.token,
         success: response
     });
 }
 
+function draw(data) {
+    //TODO
+}
+
 function response(data) {
-	alert(data.actifity);
+	document.getElementById('actifity').innerHTML = data.actifity;
+	document.getElementById('faktActivity').innerHTML = data.faktActivity;
+	document.getElementById('efficiency').innerHTML = data.efficiency;
+	document.getElementById('totalQuantity').innerHTML = data.totalQuantity;
+	document.getElementById('costs').innerHTML = data.costs;
+	document.getElementById('benefit').innerHTML = data.benefit;
+	document.getElementById('illnessRate').innerHTML = data.illnessRate;
 }

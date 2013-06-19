@@ -32,4 +32,11 @@ public interface IPaloControl {
      * @return Result.
      */
     int upload(IAccountingData data);
+
+    /**
+     * Returns stored accounting data.
+     * @param token Token, indentifier for stored accounting data.
+     * @return Data.
+     */
+    IAccountingData getData(int token);
 }

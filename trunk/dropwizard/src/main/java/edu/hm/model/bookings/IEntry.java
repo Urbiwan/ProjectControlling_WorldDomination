@@ -11,6 +11,8 @@ import edu.hm.model.bookings.model.bookings.impl.Project;
  */
 public interface IEntry {
 
+    public IEmployee getEmployee();
+
     public float getHours();
 
     public int getMonth();

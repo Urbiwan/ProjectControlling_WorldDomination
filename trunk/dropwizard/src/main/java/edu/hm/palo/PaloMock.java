@@ -80,4 +80,9 @@ public class PaloMock implements IPaloControl {
 
         return token;
     }
+
+    @Override
+    public IAccountingData getData(int token) {
+        return storedData.get(token);
+    }
 }

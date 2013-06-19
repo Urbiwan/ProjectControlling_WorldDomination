@@ -8,6 +8,7 @@ import com.yammer.dropwizard.config.Environment;
 import edu.hm.dropwizard.configuration.DropwizardConfiguration;
 import edu.hm.dropwizard.health.ComputeHealth;
 import edu.hm.dropwizard.resources.ComputeResource;
+import edu.hm.dropwizard.resources.DownloadResource;
 import edu.hm.dropwizard.resources.files.StaticResource;
 import edu.hm.dropwizard.resources.UploadResource;
 import edu.hm.dropwizard.resources.simple.SimpleResource;
@@ -33,7 +34,9 @@ public class ComputeService extends Service<DropwizardConfiguration>{
 
 		environment.addResource(new ComputeResource(palo));
         environment.addResource(new SimpleResource());
+
         environment.addResource(new UploadResource(palo));
+        environment.addResource(new DownloadResource(palo));
 
 		environment.addHealthCheck(new ComputeHealth(palo));
 	}

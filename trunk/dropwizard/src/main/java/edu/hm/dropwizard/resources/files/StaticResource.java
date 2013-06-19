@@ -16,7 +16,7 @@ import java.io.OutputStream;
  * Time: 13:03
  * To change this template use File | Settings | File Templates.
  */
-@Path("/{file}")
+@Path("/{file:.+}")
 public class StaticResource {
 
     @GET
