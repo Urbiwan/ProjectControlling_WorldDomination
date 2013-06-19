@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * To change this template use File | Settings | File Templates.
  */
 public class JSONChild {
-    @JsonProperty("MA-ID")
+    @JsonProperty("MaId")
     private int employeeID;
 
     @JsonProperty("Employee")
