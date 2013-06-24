@@ -1,4 +1,6 @@
-package edu.hm.dropwizard.health;
+package edu.hm.dropwizard;
+
+import static org.junit.Assert.*;
 
 import com.yammer.metrics.core.HealthCheck;
 import edu.hm.dropwizard.core.request.JSONChild;
@@ -7,43 +9,35 @@ import edu.hm.dropwizard.core.response.JSONResponse;
 import edu.hm.model.analyze.AnalyzeConverter;
 import edu.hm.model.bookings.BookingFactory;
 import edu.hm.palo.IPaloControl;
+import edu.hm.palo.PaloMock;
+import org.junit.Test;
 
 /**
  * Created with IntelliJ IDEA.
  * User: WEBER
- * Date: 02.06.13
- * Time: 17:46
+ * Date: 24.06.13
+ * Time: 20:14
  * To change this template use File | Settings | File Templates.
  */
-public class ComputeHealth extends HealthCheck {
+public class TestPaloMock {
+
     private IPaloControl palo;
 
-    public ComputeHealth(IPaloControl palo) {
-        super("ComputeHealth");
-
-        this.palo = palo;
+    public TestPaloMock() {
+      palo = new PaloMock();
     }
 
-    @Override
-    protected Result check() throws Exception {
+    @Test
+    public void simpleTest() {
         JSONResponse response = AnalyzeConverter.convert(palo.compute(BookingFactory.create(getDummyRequest())));
 
-        if(response.getActifity() != 20f)
-            return Result.unhealthy("Palo seems not to work properly.");
-        if(response.getFaktActivity() != 16f)
-            return Result.unhealthy("Palo seems not to work properly.");
-        if(response.getEfficiency() != 0.8f)
-            return Result.unhealthy("Palo seems not to work properly.");
-        if(response.getTotalQuantity() != 48000f)
-            return Result.unhealthy("Palo seems not to work properly.");
-        if(response.getCosts() != 2480f)
-            return Result.unhealthy("Palo seems not to work properly.");
-        if(response.getBenefit() != 45520f)
-            return Result.unhealthy("Palo seems not to work properly.");
-        if(response.getIllnessRate() != 0.1f)
-            return Result.unhealthy("Palo seems not to work properly.");
-
-        return Result.healthy();
+        assertEquals("Palo seems not to work properly.",response.getActifity(), 20f,0f);
+        assertEquals("Palo seems not to work properly.", response.getFaktActivity(), 16f, 0);
+        assertEquals("Palo seems not to work properly.", response.getEfficiency(), 0.8f, 0);
+        assertEquals("Palo seems not to work properly.", response.getTotalQuantity(), 48000f, 0);
+        assertEquals("Palo seems not to work properly.", response.getCosts(), 2480f, 0);
+        assertEquals("Palo seems not to work properly.", response.getBenefit(), 45520f, 0);
+        assertEquals("Palo seems not to work properly.", response.getIllnessRate(), 0.1f, 0);
     }
 
     private JSONRequest getDummyRequest() {
@@ -64,4 +58,5 @@ public class ComputeHealth extends HealthCheck {
 
         return  new JSONRequest(childs);
     }
+
 }

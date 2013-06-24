@@ -85,4 +85,9 @@ public class PaloMock implements IPaloControl {
     public IAccountingData getData(int token) {
         return storedData.get(token);
     }
+
+    @Override
+    public boolean available() {
+        return true;
+    }
 }

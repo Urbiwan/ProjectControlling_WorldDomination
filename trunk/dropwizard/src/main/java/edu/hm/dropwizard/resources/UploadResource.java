@@ -3,9 +3,12 @@ package edu.hm.dropwizard.resources;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
+import edu.hm.dropwizard.core.request.JSONChild;
 import edu.hm.dropwizard.core.request.JSONRequest;
 import edu.hm.dropwizard.core.response.JSONToken;
+import edu.hm.dropwizard.excel.ExcelParser;
 import edu.hm.model.bookings.BookingFactory;
+import edu.hm.model.bookings.IAccountingData;
 import edu.hm.palo.IPaloControl;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
@@ -17,6 +20,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -38,22 +43,15 @@ public class UploadResource {
     @Produces(MediaType.APPLICATION_JSON)
     public JSONToken compute(@FormDataParam("file") InputStream uploadedInputStream,
         @FormDataParam("file") FormDataContentDisposition fileDetail) throws IOException {
+        int token = -1;
 
         try {
-            JSONRequest request = null;
-
-            Workbook wb = WorkbookFactory.create(uploadedInputStream);
-            Sheet sheet = wb.getSheetAt(0);
-            for (Row row : sheet) {
-                for (Cell cell : row) {
-                    // Do something here
-                }
-            }
-
-            return new JSONToken(palo.upload(BookingFactory.create(request)));
+            IAccountingData data = BookingFactory.create(ExcelParser.getData(uploadedInputStream));
+            token = palo.upload(data);
         } catch (InvalidFormatException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
 
+        return new JSONToken(token);
     }
 }
