@@ -1,2 +1,4 @@
 *.metadata/
 classes
+/trunk/dropwizard/target
+/trunk/dropwizard/.idea/workspace.xml
