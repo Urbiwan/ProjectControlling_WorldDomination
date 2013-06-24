@@ -3,11 +3,12 @@ package edu.hm.dropwizard.resources;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
-import edu.hm.dropwizard.URICoding;
 import edu.hm.dropwizard.core.request.JSONRequest;
 import edu.hm.dropwizard.core.response.JSONToken;
 import edu.hm.model.bookings.BookingFactory;
 import edu.hm.palo.IPaloControl;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.*;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -38,13 +39,21 @@ public class UploadResource {
     public JSONToken compute(@FormDataParam("file") InputStream uploadedInputStream,
         @FormDataParam("file") FormDataContentDisposition fileDetail) throws IOException {
 
-        ObjectMapper mapper = new ObjectMapper();
         try {
-            JSONRequest request = mapper.readValue(uploadedInputStream, JSONRequest.class);
+            JSONRequest request = null;
+
+            Workbook wb = WorkbookFactory.create(uploadedInputStream);
+            Sheet sheet = wb.getSheetAt(0);
+            for (Row row : sheet) {
+                for (Cell cell : row) {
+                    // Do something here
+                }
+            }
+
             return new JSONToken(palo.upload(BookingFactory.create(request)));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new JSONToken(-1);
+        } catch (InvalidFormatException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+
     }
 }

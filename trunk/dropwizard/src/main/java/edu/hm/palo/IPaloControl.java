@@ -39,4 +39,10 @@ public interface IPaloControl {
      * @return Data.
      */
     IAccountingData getData(int token);
+
+    /**
+     * Is Palo available.
+     * @return Indicates
+     */
+    boolean available();
 }
