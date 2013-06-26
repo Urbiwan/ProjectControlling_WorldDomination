@@ -10,7 +10,7 @@ import edu.hm.model.analyze.IData;
  * To change this template use File | Settings | File Templates.
  */
 public class Data implements IData {
-    private float actifity;
+    private float activity;
     private float faktActivity;
     private float efficiency;
     private float totalQuantity;
@@ -23,7 +23,7 @@ public class Data implements IData {
     }
 
     public Data(float actifity, float faktActivity, float efficiency, float totalQuantity, float costs, float benefit, float illnessRate) {
-        this.actifity = actifity;
+        this.activity = actifity;
         this.faktActivity = faktActivity;
         this.efficiency = efficiency;
         this.totalQuantity = totalQuantity;
@@ -33,8 +33,8 @@ public class Data implements IData {
     }
 
     @Override
-    public float getActifity() {
-        return actifity;
+    public float getActivity() {
+        return activity;
     }
 
     @Override

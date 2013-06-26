@@ -1,18 +1,12 @@
 
-import org.palo.api.Connection;
-import org.palo.api.ConnectionConfiguration;
-import org.palo.api.ConnectionFactory;
-import org.palo.api.Cube;
-import org.palo.api.Database;
-import org.palo.api.Dimension;
-import org.palo.api.Hierarchy;
+import org.palo.api.*;
 
 
 public class BuildDemoDB {
 
 	public static void main(String[] args)
 	{
-		String server = "192.168.2.118";
+		String server = "localhost";
 		String port = "7777";
 		String user = "admin";
 		String pass = "admin";
@@ -30,12 +24,24 @@ public class BuildDemoDB {
 		db = connect.addDatabase("Demo");
 		
 		Dimension a = db.addDimension("a");
-		Dimension[] dim = new Dimension[] {a};
-//		dim[0].getDefaultHierarchy()
+		Dimension b = db.addDimension("b");
+		Dimension[] dim = new Dimension[] {a, b};
 		Cube sales = db.addCube("Sales", dim);
 		
+		Element aa = a.getDefaultHierarchy().addElement("aa", 0);
+		Element ab = a.getDefaultHierarchy().addElement("ab", 0);
+		Element ac = a.getDefaultHierarchy().addElement("ac", 0);
+		Element ba = b.getDefaultHierarchy().addElement("ba", 0);
+		Element bb = b.getDefaultHierarchy().addElement("bb", 0);
 		
+		System.out.println(a.getDefaultHierarchy().canBeModified());
 		
+		sales.setData(new Element[] {ab, ba},  3.2);
+		
+		System.out.println(sales.getData(new Element[] {ab,ba}));
+		
+		for (Object o : sales.getDataArray(new Element[][] {{aa, ab, ac},{ba}}))
+			System.out.println(o.toString().length());
 		
 		connect.disconnect();
 	}

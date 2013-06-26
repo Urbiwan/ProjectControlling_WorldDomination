@@ -8,7 +8,7 @@ package edu.hm.model.analyze;
  * To change this template use File | Settings | File Templates.
  */
 public interface IData {
-    public float getActifity();
+    public float getActivity();
 
     public float getFaktActivity();
 
