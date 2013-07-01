@@ -9,6 +9,7 @@ import edu.hm.dropwizard.core.response.JSONResponse;
 import edu.hm.model.analyze.AnalyzeConverter;
 import edu.hm.model.bookings.BookingFactory;
 import edu.hm.palo.IPaloControl;
+import edu.hm.palo.PaloAccess;
 import edu.hm.palo.PaloMock;
 import org.junit.Test;
 
@@ -21,30 +22,32 @@ import org.junit.Test;
  */
 public class TestPaloMock {
 
+	private static final float ACCURACY = 1f / 10000f;
+
     private IPaloControl palo;
 
     public TestPaloMock() {
-      palo = new PaloMock();
+      palo = new PaloAccess();
     }
 
     @Test
     public void simpleTest() {
         JSONResponse response = AnalyzeConverter.convert(palo.compute(BookingFactory.create(getDummyRequest())));
 
-        assertEquals("Palo seems not to work properly.",response.getActifity(), 20f,0f);
-        assertEquals("Palo seems not to work properly.", response.getFaktActivity(), 16f, 0);
-        assertEquals("Palo seems not to work properly.", response.getEfficiency(), 0.8f, 0);
-        assertEquals("Palo seems not to work properly.", response.getTotalQuantity(), 48000f, 0);
-        assertEquals("Palo seems not to work properly.", response.getCosts(), 2480f, 0);
-        assertEquals("Palo seems not to work properly.", response.getBenefit(), 45520f, 0);
-        assertEquals("Palo seems not to work properly.", response.getIllnessRate(), 0.1f, 0);
+		assertEquals("Palo seems not to work properly.", 20f, response.getActivity(), 20f * ACCURACY);
+		assertEquals("Palo seems not to work properly.", 16f, response.getFaktActivity(), 16f * ACCURACY);
+        assertEquals("Palo seems not to work properly.", 0.8f, response.getEfficiency(), 0.8f * ACCURACY);
+        assertEquals("Palo seems not to work properly.", 48000f, response.getTotalQuantity(), 48000f * ACCURACY);
+        assertEquals("Palo seems not to work properly.", 2480f, response.getCosts(), 2480f * ACCURACY);
+        assertEquals("Palo seems not to work properly.", 45520f, response.getBenefit(), 45520f * ACCURACY);
+        assertEquals("Palo seems not to work properly.", 0.1f, response.getIllnessRate(), 0.1f * ACCURACY);
     }
 
     private JSONRequest getDummyRequest() {
         JSONChild[] childs = new JSONChild[4];
         int currentIndex = 0;
 
-        JSONChild child = new JSONChild(10, "Hans", 2, 8, 1,2013, "PCS", "A-Team", "Dropwizard", true, 150, 5000);
+        JSONChild child = new JSONChild(10, "Hans", 2, 8, 1, 2013, "PCS", "A-Team", "Dropwizard", true, 150, 5000);
         childs[currentIndex++] = child;
 
         child = new JSONChild(10, "Hans", 2, 4, 1, 2013, "PCS", "A-Team", "Draw", false, 70, 300);

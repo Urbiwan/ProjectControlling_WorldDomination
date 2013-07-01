@@ -15,7 +15,7 @@ public class AnalyzeConverter {
         if(object instanceof IData)
         {
             IData data = (IData)object;
-            return new JSONResponse(data.getActifity(), data.getFaktActivity(), data.getEfficiency(),
+            return new JSONResponse(data.getActivity(), data.getFaktActivity(), data.getEfficiency(),
                     data.getTotalQuantity(), data.getCosts(), data.getBenefit(), data.getIllnessRate());
         }
 

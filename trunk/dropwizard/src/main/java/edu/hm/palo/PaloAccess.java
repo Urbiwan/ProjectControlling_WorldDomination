@@ -22,7 +22,7 @@ public class PaloAccess implements IPaloControl {
 
 
 	private static final String SERVER = "localhost";
-	private static final String PORT = "7777";
+	private static final String PORT = "7921"; // std  = 7921; daniel = 7777;
 	private static final String USER = "admin";
 	private static final String PASS = "admin";
 
@@ -123,7 +123,7 @@ public class PaloAccess implements IPaloControl {
 			Element[] elements = this.prepareElements(db, entry);
 			db.getCubeByName(CUBE_HOURS).setData(elements, entry.getHours());
 			db.getCubeByName(CUBE_COST_LIMIT).setData(elements, entry.getCostLimit());
-			db.getCubeByName(CUBE_COST_RATE).setData(elements, entry.getCostLimit());
+			db.getCubeByName(CUBE_COST_RATE).setData(elements, entry.getCostRate());
 		}
 	}
 
@@ -155,8 +155,8 @@ public class PaloAccess implements IPaloControl {
 		int  j = 0;
 		for (int i = 0; i < accountFilter.length; i++) {
 			String elementName = elementFilter[7][i].getName();
-			if (elementName.compareToIgnoreCase(ACCOUNT_SICK) == 0
-				|| elementName.compareToIgnoreCase(ACCOUNT_HOLIDAY) == 0) {
+			if (elementName.compareToIgnoreCase(ACCOUNT_SICK) != 0
+				&& elementName.compareToIgnoreCase(ACCOUNT_HOLIDAY) != 0) {
 				accountFilter[j++] = elementFilter[7][i];
 			}
 		}
@@ -198,7 +198,7 @@ public class PaloAccess implements IPaloControl {
 
 	private float calcTotalQuantity(Database db) {
 		Element[][]  elementFilter = this.getAllDimensionsElements(db);
-		Element[] factFilter = new Element[] {
+		elementFilter[8] = new Element[] {
 				db.getDimensionByName(DIM_FACT).getDefaultHierarchy().getElementByName(IS_FACT)};
 
 		float activity = 0;
@@ -252,7 +252,8 @@ public class PaloAccess implements IPaloControl {
 		Cube hours = db.getCubeByName(CUBE_HOURS);
 
 		for (Object o : hours.getDataArray(elementFilter)) {
-			if (o.toString().length() == 0) continue;
+			if (o.toString().length() <= 0) continue;
+			System.out.println(o.toString());
 			activity += Float.parseFloat(o.toString());
 		}
 
@@ -266,7 +267,7 @@ public class PaloAccess implements IPaloControl {
 		float totalQuantity = this.calcTotalQuantity(db);
 		float costs = this.calcCosts(db);
 		float benefit = totalQuantity - costs;
-		float illnessRate = calcIllnesHours(db) - activity;
+		float illnessRate = calcIllnesHours(db) / activity;
 
 		return new Data(activity, faktActivity, efficiency, totalQuantity, costs, benefit, illnessRate);
 	}
@@ -289,6 +290,7 @@ public class PaloAccess implements IPaloControl {
 		TokenAndDB tad = this.createDB();
 		int token = tad.token;
 		Database db = tad.db;
+		this.setupDB(db);
 
 		this.insertData(db, data);
 

@@ -49,7 +49,7 @@ public class JSONResponse {
         this.illnessRate = illnessRate;
     }
 
-    public float getActifity() {
+    public float getActivity() {
         return actifity;
     }
 
